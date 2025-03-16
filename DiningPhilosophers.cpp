@@ -79,11 +79,6 @@ void DiningPhilosophers::test(int id)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-/*void DiningPhilosophers::think(int id) {
-    cout << "Philosopher " << id << " is thinking..." << endl;
-    this_thread::sleep_for(chrono::milliseconds(1000 + rand() % 2000));
-}*/
-
 /** @brief Method representing a philosopher thinking
  *
  * Generates a random duration in range [400; 800], enters a critical section for uninterrupted print and
@@ -95,7 +90,7 @@ void DiningPhilosophers::think(int id)
 {
     int time = std::uniform_int_distribution<>(min_time, max_time)(gen);
     {
-        std::lock_guard<std::mutex> lk(output_mtx); // critical section for uninterrupted print
+        std::lock_guard<std::mutex> lck(output_mtx); // critical section for uninterrupted print
         cout << "\033[34mPhilosopher " << id << " is THINKING for " << time << "ms\033[0m" << endl;
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(time));
@@ -114,12 +109,12 @@ void DiningPhilosophers::takeForks(int id)
 {
     // scope 1 - protect access to the state array
     {
-        std::lock_guard<std::mutex> lk{critical_region_mtx};
+        std::lock_guard<std::mutex> lck{critical_region_mtx};
         state[id] = State::HUNGRY;
 
         // scope 2 - protect access to cout (console output)
         {
-            std::lock_guard<std::mutex> lk(output_mtx);
+            std::lock_guard<std::mutex> lock(output_mtx);
             cout << "\033[31mPhilosopher " << id << " is HUNGRY\033[0m" << endl;
         }
 
@@ -163,34 +158,11 @@ void DiningPhilosophers::putDownForks(int id)
     int left_neighbor = (id - 1 + n_philosophers) % n_philosophers;
     int right_neighbor = (id + 1) % n_philosophers;
 
-    std::lock_guard<std::mutex> lk{critical_region_mtx}; // enter critical region
+    std::lock_guard<std::mutex> lck{critical_region_mtx}; // enter critical region
     state[id] = State::THINKING;
     test(left_neighbor); // check if the left neighbor can eat
     test(right_neighbor); // check if the right neighbor can eat
 }
-
-/*void DiningPhilosophers::eat(int id) {
-    int left = id;
-    int right = (id + 1) % numPhilosophers;
-
-    // Acquire both chopsticks
-    //canEat[id].acquire();  // Ensure no one else is eating at the same time
-    canEat[id]->acquire();
-    chopsticks[left].lock();
-    chopsticks[right].lock();
-
-    // Eating
-    cout << "Philosopher " << id << " is eating..." << endl;
-    this_thread::sleep_for(chrono::milliseconds(1000 + rand() % 2000));
-
-    // Release chopsticks
-    chopsticks[left].unlock();
-    chopsticks[right].unlock();
-    //canEat[id].release();  // Allow others to eat
-    canEat[id]->release();  // Allow others to eat
-
-    cout << "Philosopher " << id << " finished eating." << endl;
-}*/
 
 //----------------------------------------------------------------------------------------------------------------------
 
