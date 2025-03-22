@@ -51,7 +51,7 @@ Aplikacja napisana w języku C++, wykorzystująca wielowątkowość oraz mechani
 * Windows:
 
     ```bash
-    SO2_projekt1.exe 5
+    ./SO2_projekt1.exe 5
     ```
 
 * Linux/MacOS:
