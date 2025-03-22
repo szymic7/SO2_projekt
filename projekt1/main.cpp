@@ -17,8 +17,8 @@ int main(int argc, char* argv[]) {
     }
 
     DiningPhilosophers dining_philosophers(n);
-    dining_philosophers.setMinTime(2000);
-    dining_philosophers.setMaxTime(3000);
+    dining_philosophers.setMinTime(5000);
+    dining_philosophers.setMaxTime(6000);
     dining_philosophers.startDining();
 
     return 0;
