@@ -10,4 +10,4 @@ $(OUT): $(SRC)
 	$(CXX) $(CXXFLAGS) $(SRC) -o $(OUT)
 
 clean:
-	rm -f $(OUT)
+	@del /f $(OUT).exe 2>NUL || rm -f $(OUT)
