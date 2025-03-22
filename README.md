@@ -5,7 +5,7 @@ Aplikacja napisana w języku C++, wykorzystująca wielowątkowość oraz mechani
 
 ## Wymagania systemowe
 * Kompilator języka C++ kompatybilny z C++ 20 (np. _g++ 10+_, _clang 11+_)
-* Emulator terminalu lub wiersz polecenia
+* Emulator terminala lub wiersz polecenia
 * Zainstalowany _make_ (opcjonalnie)
 
 
