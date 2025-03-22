@@ -28,10 +28,10 @@ class DiningPhilosophers {
 
     int min_time = 1000;  // minimum time of thinking/eating
     int max_time = 2000;  // maximum time of thinking/eating
-    std::mt19937 gen;
+    std::mt19937 gen;  // random number generator
 
     void philosopher(int id);
-    void test(int id);
+    void checkIfCanEat(int id);
     void think(int id);
     void takeForks(int id);
     void eat(int id);

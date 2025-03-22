@@ -65,14 +65,15 @@ void DiningPhilosophers::philosopher(int id) {
 //----------------------------------------------------------------------------------------------------------------------
 
 /**
- * @brief Method testing if the philosopher may eat
+ * @brief Method checking if the philosopher may eat
  *
  * Calculates indexes of philosopher's neighbors, checking if tested philosopher is hungry and his neighbors
  * are not eating; if so, he's starting eating
  *
  * @param id id of the philosopher which is being tested
  */
-void DiningPhilosophers::test(int id) {
+void DiningPhilosophers::checkIfCanEat(int id) {
+    // indexes of left and right neighbor
     int left = (id - 1 + n_philosophers) % n_philosophers;
     int right = (id + 1) % n_philosophers;
 
@@ -86,8 +87,8 @@ void DiningPhilosophers::test(int id) {
 
 /** @brief Method representing a philosopher thinking
  *
- * Generates a random duration in range [400; 800], enters a critical section for uninterrupted print and
- * sleeps a current thread for the drawn amount of time
+ * Generates a random duration in range [min_time; max_time], enters a critical section for uninterrupted print
+ * and sleeps a current thread for the drawn amount of time
  *
  * @param id id of the philosopher's thread
  */
@@ -104,7 +105,7 @@ void DiningPhilosophers::think(int id) {
 
 /** @brief Method representing a philosopher trying to take two forks to eat
  *
- * Entering a critical section for an access to the forks, entering second critical section to print a current
+ * Entering a critical section for an access to the states array, entering second critical section to print a current
  * state of a philosopher and testing if he can eat; if not - the thread is being blocked by the semaphore
  *
  * @param id id of a philosopher trying to take forks
@@ -121,7 +122,7 @@ void DiningPhilosophers::takeForks(int id) {
             std::cout << "\033[31mPhilosopher " << id << " is HUNGRY\033[0m" << std::endl;
         }
 
-        test(id);  // check if a philosopher can eat
+        checkIfCanEat(id);  // check if a philosopher can eat
     }
 
     // block the thread if forks were not acquired
@@ -132,8 +133,8 @@ void DiningPhilosophers::takeForks(int id) {
 
 /** @brief Method representing a philosopher eating
  *
- * Generates a random duration in range [400; 800], enters a critical section for uninterrupted print and
- * sleeps a current thread for the drawn amount of time
+ * Generates a random duration in range [min_time; max_time], enters a critical section to print a current
+ * state of a philosopher and sleeps a current thread for the drawn amount of time
  *
  * @param id id of a philosopher eating
  */
@@ -157,22 +158,20 @@ void DiningPhilosophers::eat(int id) {
  */
 void DiningPhilosophers::putDownForks(int id) {
     // indexes of left and right neighbor
-    int left_neighbor = (id - 1 + n_philosophers) % n_philosophers;
-    int right_neighbor = (id + 1) % n_philosophers;
+    int left = (id - 1 + n_philosophers) % n_philosophers;
+    int right = (id + 1) % n_philosophers;
 
     std::lock_guard<std::mutex> lck{states_mtx};  // enter critical region
     state[id] = State::THINKING;
-    test(left_neighbor);  // check if the left neighbor can eat
-    test(right_neighbor);  // check if the right neighbor can eat
+    checkIfCanEat(left);  // check if the left neighbor can eat
+    checkIfCanEat(right);  // check if the right neighbor can eat
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
 /** @brief Method to create and run philosophers' threads
  *
- * In the first loop creates and starts philosophers' threads, then tells the main thread to wait
- * for all of them to finish
- *
+ * Creates and starts philosophers' threads, then tells the main thread to wait for all of them to finish
  */
 void DiningPhilosophers::startDining() {
     // creating and starting philosopher threads
