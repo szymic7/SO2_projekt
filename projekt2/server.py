@@ -14,7 +14,7 @@ server.bind(ADDR)
 client_sockets = []
 previous_messages = []
 
-# Locks for synchronizing access to shared resources
+# Locks (mutexes) for synchronizing access to shared resources
 client_sockets_lock = threading.Lock()
 previous_messages_lock = threading.Lock()
 
@@ -28,14 +28,6 @@ def receive_message(client_socket, addr):
     addr (tuple): address of the client.
     """
     print(f"[NEW CONNECTION] {addr} connected.")
-
-    # The first message from client is taken as the nickname
-    #msg_length = client_socket.recv(HEADER).decode(FORMAT)
-    #if msg_length:
-        #msg_length = int(msg_length)
-        #nickname = client_socket.recv(msg_length).decode(FORMAT)
-
-    #print(f"[NICKNAME] {addr} is now known as {nickname}.")
 
     # Send all the previous messages to the newly connected client
     with previous_messages_lock:
@@ -101,7 +93,7 @@ def start():
     """
     print("[SERVER IS STARTING]")
     server.listen()
-    server.settimeout(1.0)  # <-- Timeout after 1 second if no connection
+    server.settimeout(1.0)  # Timeout after 1 second if no connection
     print(f"[LISTENING] Server is listening on {SERVER}:{PORT}")
     try:
         while True:

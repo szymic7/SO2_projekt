@@ -22,7 +22,7 @@ def talk_to_server(gui, nickname):
     """
     thread = threading.Thread(target=receive_message, args=(client, gui))
     thread.start()
-    gui.recv_thread = thread  # <-- Store the thread in the GUI object
+    gui.recv_thread = thread  # Store the thread in the GUI object
     print(f"[CONNECTED] {nickname} connected to the chat server.")
 
 
