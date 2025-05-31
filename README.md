@@ -100,6 +100,7 @@ Dostęp do sekcji krytycznych jest chroniony przez obiekty klasy std::mutex - _s
 Aplikacja napisana w języku Python, z graficznym interfejsem użytkownika utworzonym z wykorzystaniem modułu _tkinter_. Apliakcja wykorzystuje wielowątkowość oraz mutexy (obiekty klasy _Lock_, z modułu _threading_), zabezpieczejące sekcje krytyczne.
 
 
+
 ## Wymagania systemowe
 * Python 3.8 lub nowszy
 
@@ -137,7 +138,7 @@ sudo apt install python3-tk
       python client.py
       ```
 
-## Opis aplikacja
+## Opis aplikacji
 
 Aplikacja imituje chat tekstowy, umożliwiający komunikację w czasie rzeczywistym między wieloma użytkownikami. Składa się z serwera obsługującego wielu klientów równocześnie oraz graficznego interfejsu użytkownika (GUI) po stronie klienta, z pomocą którego może wygodnie uczestniczyć w rozmowie z innymi użytkownikami. Aplikacja obsługuje nadawanie i odbieranie wiadomości, a także pamięta historię czatu, którą otrzymuje każdy nowy uczestnik po dołączeniu.
 
