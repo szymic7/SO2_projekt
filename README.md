@@ -93,3 +93,66 @@ Sekcja krytyczna to fragment kodu, wykorzystujący pewien współdzielony zasób
 2. Wyświetlanie w konsoli komunikatów, raportujących o stanie danego wątku
 
 Dostęp do sekcji krytycznych jest chroniony przez obiekty klasy std::mutex - _states_mtx_ i _output_mtx_. Do sekcji krytycznej, modyfikującej zawartość tablicy _state_, może wejść każdy z obecnych wątków filozofów, wywołując metodę _takeForks()_ oraz _putDownForks()_. Druga z sekcji krytycznych także może być osiągnięta przez każdy z działających wątków, dzięki wywołaniu metody _eat()_, _takeForks()_ lub _think()_. Mutexy zapewniają, że w danym momencie, dostęp do współdzielonego zasobu ma co najwyżej jeden wątek.
+
+
+# Projekt 2 - Wielowątkowy serwer chatu
+
+Aplikacja napisana w języku Python, z graficznym interfejsem użytkownika utworzonym z wykorzystaniem modułu _tkinter_. Apliakcja wykorzystuje wielowątkowość oraz mutexy (obiekty klasy _Lock_, z modułu _threading_), zabezpieczejące sekcje krytyczne.
+
+
+## Wymagania systemowe
+* Python 3.8 lub nowszy
+
+### Uwaga!
+Dla systemach operacyjnych Linux może być konieczne oddzielne zainstalowanie modułu tkinter:
+
+```bash
+sudo apt install python3-tk
+```
+
+## Instrukcja uruchomienia projektu
+
+1. **Pobierz projekt**
+
+      ```bash
+      git clone https://github.com/szymic7/SO2_projekt.git
+      cd SO2_projekt
+      ```
+
+2. **Zmień katalog na folder z projektem 2**
+
+      ```bash
+      cd projekt2
+      ```
+
+3. **Uruchom serwer chatu**
+
+      ```bash
+      python server.py
+      ```
+
+4. **W nowych oknach terminalu uruchom sesje klientów**
+
+      ```bash
+      python client.py
+      ```
+
+## Opis aplikacja
+
+Aplikacja imituje chat tekstowy, umożliwiający komunikację w czasie rzeczywistym między wieloma użytkownikami. Składa się z serwera obsługującego wielu klientów równocześnie oraz graficznego interfejsu użytkownika (GUI) po stronie klienta, z pomocą którego może wygodnie uczestniczyć w rozmowie z innymi użytkownikami. Aplikacja obsługuje nadawanie i odbieranie wiadomości, a także pamięta historię czatu, którą otrzymuje każdy nowy uczestnik po dołączeniu.
+
+
+## Wątki w programie
+
+Aplikacja korzysta z wielowątkowości, zarówno po stronie serwera, jak i klienta. Serwer tworzy wątek dla każdego połączenia z klientem. Wątek ten odpowiada za komunikację (przesyłanie wiadomości) między danym klientem a serwerem. 
+
+Po stronie klienta, dla każdej sesji, oprócz wątku GUI, występuje wątek nasłuchujący nowych wiadomości przychodzących z serwera. Dzięki zastosowaniu osobnego wątku nasłuchującego po stronie klienta, możliwe jest odbieranie wiadomości z serwera w tle, bez blokowania interfejsu graficznego i wpływu na komfort użytkownika.
+
+
+## Sekcje krytyczne
+
+W zaimplementowanej aplikacji występują dwie sekcje krytyczne:
+1. Dostep do listy _client_sockets_, przechowującej gniazda, na których otwarte są połączenia z klientami
+2. Dostęp do listy _previous_messages_, przechowującej historię chatu
+
+Obie sekcji krytyczne występują po stronie serwera. Dostęp do nich jest chroniony przez instancje klasy _Lock_, z modułu _threading_ - _client_sockets_lock_ i _previous_messages_lock_. Do sekcji dotyczącej listy gniazd, na których obecne są połączenia z klientem, dostęp mogą mieć wszystkie wątki klientów, ponieważ zakładamy, że mogą oni jednocześnie łączyć się z serwerem lub kończyć połączenie. Użycie mutexu powoduje, że w danym momencie tylko jeden z wątków może modyfikować zawartosć listy _client_sockets_. Sytuacja ma się podobnie w przypadku drugiej sekcji krytycznej - wątki wszystkich sesji klientów mogą chcieć jednocześnie uzyskać dostęp do listy, w celu odczytania wysłanych dotychczas wiadomości i wyświetlenia ich lub dodania nowej wiadomości do historii chatu, po wysłaniu jej. Z wykorzystaniem obiektu mutexu _previous_messages_lock_ serwer zapewnia synchronizację wiadomości od klientów.
