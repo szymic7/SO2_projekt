@@ -95,7 +95,13 @@ Sekcja krytyczna to fragment kodu, wykorzystujący pewien współdzielony zasób
 Dostęp do sekcji krytycznych jest chroniony przez obiekty klasy std::mutex - _states_mtx_ i _output_mtx_. Do sekcji krytycznej, modyfikującej zawartość tablicy _state_, może wejść każdy z obecnych wątków filozofów, wywołując metodę _takeForks()_ oraz _putDownForks()_. Druga z sekcji krytycznych także może być osiągnięta przez każdy z działających wątków, dzięki wywołaniu metody _eat()_, _takeForks()_ lub _think()_. Mutexy zapewniają, że w danym momencie, dostęp do współdzielonego zasobu ma co najwyżej jeden wątek.
 
 
+
+
+
 ---
+
+
+
 
 
 # Projekt 2 - Wielowątkowy serwer chatu
