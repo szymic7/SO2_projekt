@@ -95,11 +95,12 @@ Sekcja krytyczna to fragment kodu, wykorzystujący pewien współdzielony zasób
 Dostęp do sekcji krytycznych jest chroniony przez obiekty klasy std::mutex - _states_mtx_ i _output_mtx_. Do sekcji krytycznej, modyfikującej zawartość tablicy _state_, może wejść każdy z obecnych wątków filozofów, wywołując metodę _takeForks()_ oraz _putDownForks()_. Druga z sekcji krytycznych także może być osiągnięta przez każdy z działających wątków, dzięki wywołaniu metody _eat()_, _takeForks()_ lub _think()_. Mutexy zapewniają, że w danym momencie, dostęp do współdzielonego zasobu ma co najwyżej jeden wątek.
 
 
+---
+
+
 # Projekt 2 - Wielowątkowy serwer chatu
 
 Aplikacja napisana w języku Python, z graficznym interfejsem użytkownika utworzonym z wykorzystaniem modułu _tkinter_. Apliakcja wykorzystuje wielowątkowość oraz mutexy (obiekty klasy _Lock_, z modułu _threading_), zabezpieczejące sekcje krytyczne.
-
-
 
 ## Wymagania systemowe
 * Python 3.8 lub nowszy
@@ -140,7 +141,7 @@ sudo apt install python3-tk
 
 ## Opis aplikacji
 
-Aplikacja imituje chat tekstowy, umożliwiający komunikację w czasie rzeczywistym między wieloma użytkownikami. Składa się z serwera obsługującego wielu klientów równocześnie oraz graficznego interfejsu użytkownika (GUI) po stronie klienta, z pomocą którego może wygodnie uczestniczyć w rozmowie z innymi użytkownikami. Aplikacja obsługuje nadawanie i odbieranie wiadomości, a także pamięta historię czatu, którą otrzymuje każdy nowy uczestnik po dołączeniu.
+Aplikacja imituje chat tekstowy, umożliwiający komunikację w czasie rzeczywistym między wieloma użytkownikami. Składa się z serwera obsługującego wielu klientów równocześnie oraz graficznego interfejsu użytkownika (GUI) po stronie klienta, z pomocą którego może on wygodnie uczestniczyć w rozmowie z innymi użytkownikami. Aplikacja obsługuje nadawanie i odbieranie wiadomości, a także pamięta historię czatu, którą otrzymuje każdy nowy uczestnik po dołączeniu.
 
 
 ## Wątki w programie
