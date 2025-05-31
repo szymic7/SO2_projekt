@@ -106,11 +106,11 @@ Aplikacja napisana w języku Python, z graficznym interfejsem użytkownika utwor
 * Emulator terminala lub wiersz polecenia
 
 ### Uwaga!
-Dla systemach operacyjnych Linux może być konieczne oddzielne zainstalowanie modułu tkinter:
+      Na systemach operacyjnych Linux może być konieczne oddzielne zainstalowanie modułu tkinter:
 
-```bash
-sudo apt install python3-tk
-```
+      ```bash
+      sudo apt install python3-tk
+      ```
 
 ## Instrukcja uruchomienia projektu
 
