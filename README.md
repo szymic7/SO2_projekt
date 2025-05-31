@@ -103,6 +103,7 @@ Aplikacja napisana w języku Python, z graficznym interfejsem użytkownika utwor
 
 ## Wymagania systemowe
 * Python 3.8 lub nowszy
+* Emulator terminala lub wiersz polecenia
 
 ### Uwaga!
 Dla systemach operacyjnych Linux może być konieczne oddzielne zainstalowanie modułu tkinter:
